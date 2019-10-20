@@ -6,7 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,9 +20,9 @@ public class AgendaDAO {
     
     private Connection getConnection(){
         if(conn == null)
-            return conn;
-        else
             return ConexaoFactory.getConnection();
+        else
+            return conn;
     }
     
     public void closeConnections() throws SQLException {
@@ -38,11 +39,9 @@ public class AgendaDAO {
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, agenda.getCompromisso());
             stmt.setString(2, agenda.getDescricao());
-            stmt.setDate(3, java.sql.Date.valueOf(agenda.getData().toLocalDate()));
+            stmt.setTimestamp(3, Timestamp.valueOf(agenda.getData()));
             stmt.setString(4, agenda.getLocalizacao());
             stmt.execute();
-            stmt.close();
-            conn.close();
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(AgendaDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,7 +50,7 @@ public class AgendaDAO {
     }
     
     public List<Agenda> listarAgenda() throws SQLException {
-        List<Agenda> lista = null;
+        List<Agenda> lista = new ArrayList<>();
         Agenda agenda = new Agenda();
         conn = getConnection();
         String sql = "SELECT * FROM agendatb"; 
@@ -61,12 +60,30 @@ public class AgendaDAO {
             agenda.setId(rs.getInt(1));
             agenda.setCompromisso(rs.getString(2));
             agenda.setDescricao(rs.getString(3));
-            Date data = rs.getDate(4);
-       
-            agenda.setData(rs.getDate(4));
+            agenda.setData(rs.getTimestamp(4).toLocalDateTime());
             agenda.setLocalizacao(rs.getString(5));
+            lista.add(agenda);
         }
         
         return lista;
+    }
+    
+    public Agenda buscaAgendaPorId(long id) throws SQLException {
+       Agenda ag = new Agenda();
+       conn = getConnection();
+       String sql = "SELECT * FROM agendatb WHERE id = ?";
+       stmt = conn.prepareStatement(sql);
+       stmt.setLong(1, id);
+       rs = stmt.executeQuery();
+       if (rs.next()) {
+           ag.setId(rs.getInt(1));
+           ag.setCompromisso(rs.getString(2));
+           ag.setDescricao(rs.getString(3));
+           ag.setData(rs.getTimestamp(4).toLocalDateTime());
+           ag.setLocalizacao(rs.getString(5));
+       } else {
+           ag = null;
+       }
+       return ag;
     }
 }

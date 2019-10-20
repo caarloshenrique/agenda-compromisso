@@ -1,6 +1,8 @@
 package br.com.agenda.view;
 
 import br.com.agenda.controller.AgendaController;
+import br.com.agenda.model.Agenda;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -35,12 +37,30 @@ public class AgendaView {
         }
     }
     
-    public static void main(String[] args) {
+    public void listarCompromissos() throws SQLException {
+        agc.listarAgenda();
+        if(agc.getLista().isEmpty()) {
+            System.out.println("Lista Vazia!");
+        } else {
+            for (Agenda agenda : agc.getLista()) {
+                System.out.println(agenda);
+            }
+        }
+    }
+    
+    public void buscarPorId() throws SQLException {
+        System.out.println("Digite o id do agendamento:");
+        long id = sc.nextLong();
+        agc.buscarAgendaPorId(id);
+        System.out.println(agc.getAgenda());
+    }
+    
+    public static void main(String[] args) throws SQLException {
         AgendaView av = new AgendaView();
         av.menu();
     }
     
-    public void menu(){
+    public void menu() throws SQLException{
         int opcao;
         
         do {
@@ -57,12 +77,14 @@ public class AgendaView {
                 agendarCompromisso();
                 break;
             case 2:
+                listarCompromissos();
                 break;
             case 3:
                 break;
             case 4:
                 break;
             case 5:
+                buscarPorId();
                 break;
             case 0:
                 System.out.println("Tchau! Até mais!!!");

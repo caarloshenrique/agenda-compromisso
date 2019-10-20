@@ -3,6 +3,7 @@ package br.com.agenda.model;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -15,6 +16,13 @@ public class Agenda {
     
     @Override
     public String toString() {
-        return id + " " + compromisso + " " + descricao + " " + localizacao;
+        return id + " " + compromisso + " " + descricao + " " + formataData() + " " + localizacao;
+    }
+    
+    public String formataData() {
+        String st;
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        st = df.format(data);
+        return st;
     }
 }
