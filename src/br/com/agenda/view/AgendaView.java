@@ -55,9 +55,36 @@ public class AgendaView {
         System.out.println(agc.getAgenda());
     }
     
-    public static void main(String[] args) throws SQLException {
-        AgendaView av = new AgendaView();
-        av.menu();
+    public void alterarCompromisso() throws SQLException {
+        System.out.println("----Edição de Compromisso----");
+        buscarPorId();
+        sc.nextLine();
+        System.out.println("Compromisso:");
+        agc.getAgenda().setCompromisso(sc.nextLine());
+        System.out.println("Descrição:");
+        agc.getAgenda().setDescricao(sc.nextLine());
+        System.out.println("Data:");
+        String st = sc.nextLine();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        agc.getAgenda().setData(LocalDateTime.parse(st, formatter));
+        System.out.println("Local:");
+        agc.getAgenda().setLocalizacao(sc.nextLine());
+        if (agc.alterarCompromisso()) {
+            System.out.println("Agenda atualizada com sucesso!");
+        } else {
+            System.out.println("Erro ao tentar salvar agenda!");
+        }
+    }
+    
+    public void deletarCompromisso() throws SQLException {
+        System.out.println("----Exclusão de Compromisso----");
+        agc.listarAgenda();
+        System.out.println("Digite o id do agendamento:");
+        long id = sc.nextLong();
+        agc.buscarAgendaPorId(id);
+        System.out.println(agc.getAgenda());
+        agc.deletarCompromisso(id);
+        agc.listarAgenda();
     }
     
     public void menu() throws SQLException{
@@ -80,8 +107,10 @@ public class AgendaView {
                 listarCompromissos();
                 break;
             case 3:
+                alterarCompromisso();
                 break;
             case 4:
+                deletarCompromisso();
                 break;
             case 5:
                 buscarPorId();

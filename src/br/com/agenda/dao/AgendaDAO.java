@@ -51,12 +51,13 @@ public class AgendaDAO {
     
     public List<Agenda> listarAgenda() throws SQLException {
         List<Agenda> lista = new ArrayList<>();
-        Agenda agenda = new Agenda();
+        Agenda agenda;
         conn = getConnection();
         String sql = "SELECT * FROM agendatb"; 
         stmt = conn.prepareStatement(sql);
         rs = stmt.executeQuery();
         while(rs.next()){
+            agenda = new Agenda();
             agenda.setId(rs.getInt(1));
             agenda.setCompromisso(rs.getString(2));
             agenda.setDescricao(rs.getString(3));
@@ -85,5 +86,39 @@ public class AgendaDAO {
            ag = null;
        }
        return ag;
+    }
+    
+    public boolean alterarCompromisso(Agenda agenda){
+        conn = getConnection();
+        String sql = "UPDATE agendatb SET compromisso = ? , descricao = ?, data = ?, localizacao = ? WHERE id = ?";
+        
+        try {
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, agenda.getCompromisso());
+            stmt.setString(2, agenda.getDescricao());
+            stmt.setTimestamp(3, Timestamp.valueOf(agenda.getData()));
+            stmt.setString(4, agenda.getLocalizacao());
+            stmt.setLong(5, agenda.getId());
+            stmt.executeUpdate();
+            return true;
+        } catch(SQLException ex) {
+            Logger.getLogger(AgendaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
+    public boolean deletarCompromisso(long id) {
+         conn = getConnection();
+         String sql = "DELETE FROM agendatb WHERE id = ?";
+         try {
+            stmt = conn.prepareStatement(sql);
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
+             System.out.println("Deletado com sucesso!");
+            return true;
+         } catch(SQLException ex) {
+            Logger.getLogger(AgendaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 }

@@ -27,6 +27,14 @@ public class AgendaController {
         agenda = dao.buscaAgendaPorId(id);
     }
     
+    public boolean alterarCompromisso() {
+        return dao.alterarCompromisso(agenda);
+    }
+    
+    public boolean deletarCompromisso(long id) {
+        return dao.deletarCompromisso(id);
+    }
+    
     public Agenda getAgenda() {
         return agenda;
     }
