@@ -88,6 +88,25 @@ public class AgendaDAO {
        return ag;
     }
     
+    public Agenda buscaAgendaPorCompromisso(String compromisso) throws SQLException {
+       Agenda ag = new Agenda();
+       conn = getConnection();
+       String sql = "SELECT * FROM agendatb WHERE compromisso LIKE ?";
+       stmt = conn.prepareStatement(sql);
+       stmt.setString(1, '%' + compromisso + '%');
+       rs = stmt.executeQuery();
+       if (rs.next()) {
+           ag.setId(rs.getInt(1));
+           ag.setCompromisso(rs.getString(2));
+           ag.setDescricao(rs.getString(3));
+           ag.setData(rs.getTimestamp(4).toLocalDateTime());
+           ag.setLocalizacao(rs.getString(5));
+       } else {
+           ag = null;
+       }
+       return ag;
+    }
+    
     public boolean alterarCompromisso(Agenda agenda){
         conn = getConnection();
         String sql = "UPDATE agendatb SET compromisso = ? , descricao = ?, data = ?, localizacao = ? WHERE id = ?";

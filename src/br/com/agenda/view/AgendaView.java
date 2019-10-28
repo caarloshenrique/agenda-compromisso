@@ -55,6 +55,14 @@ public class AgendaView {
         System.out.println(agc.getAgenda());
     }
     
+    public void buscarPorCompromisso() throws SQLException {
+        sc.nextLine();
+        System.out.println("Digite o agendamento:");
+        String compromisso = sc.nextLine();
+        agc.buscarAgendaPorCompromisso(compromisso);
+        System.out.println(agc.getAgenda());
+    }
+    
     public void alterarCompromisso() throws SQLException {
         System.out.println("----Edição de Compromisso----");
         buscarPorId();
@@ -87,7 +95,7 @@ public class AgendaView {
         agc.listarAgenda();
     }
     
-    public void menu() throws SQLException{
+    public void menu() throws SQLException {
         int opcao;
         
         do {
@@ -114,6 +122,9 @@ public class AgendaView {
                 break;
             case 5:
                 buscarPorId();
+                break;
+            case 6:
+                buscarPorCompromisso();
                 break;
             case 0:
                 System.out.println("Tchau! Até mais!!!");

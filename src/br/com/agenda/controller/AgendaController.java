@@ -27,6 +27,10 @@ public class AgendaController {
         agenda = dao.buscaAgendaPorId(id);
     }
     
+    public void buscarAgendaPorCompromisso(String compromisso) throws SQLException {
+        agenda = dao.buscaAgendaPorCompromisso(compromisso);
+    }
+    
     public boolean alterarCompromisso() {
         return dao.alterarCompromisso(agenda);
     }
