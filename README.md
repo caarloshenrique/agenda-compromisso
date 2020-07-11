@@ -4,8 +4,8 @@
 ## :rocket: Tecnologias utilizadas  
 O projeto foi feito utilizando as seguintes tecnologias:
 
-- [Java 8](https://www.java.com/pt_BR/download/faq/java8.xml)
-- [MySQL 5](https://dev.mysql.com/)
+- [Java](https://www.java.com/pt_BR/download/faq/java8.xml)
+- [MySQL](https://dev.mysql.com/)
 {...}
 
 ## :clipboard: Pré-requisitos
