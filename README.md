@@ -14,7 +14,7 @@ O projeto foi feito utilizando as seguintes tecnologias:
 - [MySQL 5](https://dev.mysql.com/)
 
 ## :fire: Instalação e execução
-Execute a classe `Executavel` localizada em `src/br/com/agenda/executavel/Executavel.java`
+Execute a classe [Executavel](/src/br/com/agenda/executavel/Executavel.java) localizada em `src/br/com/agenda/executavel/Executavel.java`
 
 ## :page_facing_up: Licença 
 Este projeto é desenvolvido sob a licença MIT. Veja o arquivo [LICENSE](LICENSE.md) para saber mais detalhes.
